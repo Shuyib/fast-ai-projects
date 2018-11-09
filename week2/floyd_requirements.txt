@@ -1,1 +1,2 @@
-fastai
+fastai==1.0.19
+flask
