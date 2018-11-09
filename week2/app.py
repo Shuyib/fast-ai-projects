@@ -11,7 +11,7 @@ from werkzeug.exceptions import BadRequest
 
 def evaluate_image(img) -> str:
 	pred_class, pred_idx, outputs = trained_model.predict(img)
-	return pred_class
+	return print("The image you queried is most likely a {}".format(pred_class))
 
 def load_model():
 	path = '/floyd/home'
@@ -45,10 +45,8 @@ def eval_image():
     input_file.save(input_buffer)
     
     guess = evaluate_image(open_image(input_buffer))
-    hint = fact_finder(guess)
     return jsonify({
         'guess': guess,
-        'hint': hint
     })
 
 if __name__ == "__main__":
