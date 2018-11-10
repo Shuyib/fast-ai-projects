@@ -5,13 +5,14 @@ from fastai import *
 from fastai.vision import *
 from flask import Flask, jsonify, request, render_template
 from werkzeug.exceptions import BadRequest
+from hints import fact_finder
 
 
 # fastai.defaults.device = torch.device('cpu')
 
 def evaluate_image(img) -> str:
 	pred_class, pred_idx, outputs = trained_model.predict(img)
-	return print("The image you queried is most likely a {}".format(pred_class))
+	return pred_class
 
 def load_model():
 	path = '/floyd/home'
@@ -40,13 +41,14 @@ def eval_image():
         return BadRequest("Filename is not present in the request")
     if not input_file.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
         return BadRequest("Invalid file type")
-    
     input_buffer = BytesIO()
     input_file.save(input_buffer)
     
     guess = evaluate_image(open_image(input_buffer))
+    get_facts = fact_finder(guess)
     return jsonify({
-        'guess': guess,
+        'guess': guess
+        'hint': hint
     })
 
 if __name__ == "__main__":
