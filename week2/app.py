@@ -47,7 +47,7 @@ def eval_image():
     guess = evaluate_image(open_image(input_buffer))
     get_facts = fact_finder(guess)
     return jsonify({
-        'guess': guess
+        'guess': guess,
         'hint': hint
     })
 
