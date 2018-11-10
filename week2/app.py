@@ -5,7 +5,6 @@ from fastai import *
 from fastai.vision import *
 from flask import Flask, jsonify, request, render_template
 from werkzeug.exceptions import BadRequest
-from hints import fact_finder
 
 
 # fastai.defaults.device = torch.device('cpu')
@@ -45,10 +44,8 @@ def eval_image():
     input_file.save(input_buffer)
     
     guess = evaluate_image(open_image(input_buffer))
-    get_facts = fact_finder(guess)
     return jsonify({
-        'guess': guess,
-        'hint': hint
+        'guess': guess
     })
 
 if __name__ == "__main__":
