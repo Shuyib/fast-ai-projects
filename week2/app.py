@@ -5,21 +5,20 @@ from fastai import *
 from fastai.vision import *
 from flask import Flask, jsonify, request, render_template
 from werkzeug.exceptions import BadRequest
+from hints import fact_finder
 
-
-# fastai.defaults.device = torch.device('cpu')
 
 def evaluate_image(img) -> str:
-	pred_class, pred_idx, outputs = trained_model.predict(img)
-	return pred_class
+    pred_class, pred_idx, outputs = trained_model.predict(img)
+    return pred_class
 
 def load_model():
 	path = '/floyd/home'
-	classes = ['eosinophil', 'lymphocyte', 'monocyte', 'neutrophil']
+	classes = ['eosinophil', 'lymphocyte', 'monocyte', 'neutrophil', "not applicable"]
 	data = ImageDataBunch.single_from_classes(path, classes, tfms=get_transforms(), size=200).normalize(imagenet_stats)
 	learn = create_cnn(data, models.resnet50)
 	learn.load('stage-5')
-	return learn
+    return learn
 
 app = Flask(__name__)
 app.config['DEBUG'] = False
@@ -40,13 +39,16 @@ def eval_image():
         return BadRequest("Filename is not present in the request")
     if not input_file.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
         return BadRequest("Invalid file type")
+    
     input_buffer = BytesIO()
     input_file.save(input_buffer)
     
     guess = evaluate_image(open_image(input_buffer))
+    hint = fact_finder(guess)
     return jsonify({
-        'guess': guess
+        'guess': guess,
+        'hint': hint
     })
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', threaded=False)
+    app.run(host='0.0.0.0', threaded=False)
