@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "layout2.html" %}
 {% block body %}
 
 <style>
@@ -22,13 +22,52 @@
     text-align: right;
     cursor: pointer;
   }
-  body {
-            font-size: 20px;
-            background-color:#d3d3d3;
-}
+  label{
+    margin: 0 4rem;
+    /*height: 6rem;*/
+    font-size: 4rem !important;
+    /*background-color: white !important;*/
+    border: 6px solid white !important;
+    color: white !important;
+  }
+  .header {
+    background-color: #202020;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    padding-top: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .imageContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  #imgInput {
+    padding: 1rem;
+    max-height: 600px;
+  }
+  .clicky {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  #outputContainer {
+    margin-top: 1.5rem;
+    border: 6px solid white !important;
+    padding: 2rem;
+    color: white;
+  }
+  #guessOutput {
+    font-size: 2rem !important;
+  }
+  #hintOutput {
+    font-size: 1.5rem !important;
+  }
 </style>
-
-
 
 <script type="text/javascript">
   $(function() {
@@ -82,21 +121,19 @@
 </script>
 
 
-<div class="container">
-  <div class='row'>
-    <div class='col-sm-12'>
-      <h1 class='display-4'>Immune Cell Classifier</h1>
-    </div>
+<div>
+  <div class='header'>
+    <h1>🔬 Immune Cell Classifier</h1>
   </div>
-  <div class='row'>
-    <div class='col-sm-12'>
-      <form id='imgForm' method='POST' enctype="multipart/form-data">
-          <div class='form-group'>
-            <label class='btn-file btn btn-outline-primary btn-lg'>
-              Select image file
-              <input type="file"
-                     class='form-control-file'
-                     id="file" name="file"></input>
+  <div>
+    <form id='imgForm' method='POST' enctype="multipart/form-data">
+        <div class='form-group clicky'>
+          <label class='btn-file btn btn-outline-primary btn-lg'>
+            📷 Take photo
+            <input type="file"
+                   class='form-control-file'
+                   id="file" name="file"></input>
+                   
             </label>
             <p>Classifier accepts stained immune cell Eosinophils, Neutrophils, Lymphocytes and Monocytes
               
@@ -107,28 +144,25 @@
               <br>Learn more about these cells <a href="https://en.wikipedia.org/wiki/White_blood_cell" target="_blank">here</a> </br>
               
               <br>Created by: <a href="https://twitter.com/Shuyin_ben" target="_blank">Ben Mainye</a> & <a href="https://twitter.com/whatrocks" target="_blank">Charlie Harrington</a>
-              </p>
-              
-          </div>
-      </form>
+</p>
+          </label>
+        </div>
+    </form>
+  </div>
+
+  <div class="imageContainer">
+    <img id='imgInput' class="img-fluid" src="{{input}}"  />
+  </div>
+  
+  <div class="imageContainer">
+    <div id='outputContainer'>
+     <h3 id="guessOutput"></h3>
+     <p id="hintOutput"></p>
+    <div class='loading d-none'>
+      <i class="fas fa-cog fa-spin fa-5x"></i>
     </div>
   </div>
 
-
-  <div class='row'>
-    <div class='col-md-6 col-sm-12'>
-      <div>
-        <img id='imgInput' class="img-fluid" src="{{input}}" />
-      </div>
-    </div>
-    <div class='col-md-6 col-sm-12'>
-      <div id='outputContainer'>
-          <h3 id="guessOutput"></h3>
-          <p id="hintOutput"></p>
-        <div class='loading d-none'><i class="fas fa-cog fa-spin fa-5x"></i></div>
-      </div>
-    </div>
-  </div>
 </div>
 
 {% endblock %}
