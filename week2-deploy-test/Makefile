@@ -3,7 +3,7 @@ venv:
 	conda create -n fastai-env python=3.9 anaconda
 
 configure-mamba:
-	# use the fastsetup do speed this up
+	# use the fastsetup do speed this up https://github.com/fastai/fastsetup
 	bash setup-conda.sh
 
 activate:
