@@ -1,8 +1,9 @@
 venv:
-	# create a virtual environment
+	# create a virtual environment adjust it to a particular python version if you want
 	conda create -n fastai-env python=3.9 anaconda
 
 configure-mamba:
+	# use the fastsetup do speed this up
 	bash setup-conda.sh
 
 activate:
