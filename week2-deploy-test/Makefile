@@ -1,35 +1,33 @@
+venv:
+	# create a virtual environment
+	conda create -n fastai-env python=3.9 anaconda
+
+configure-mamba:
+	bash setup-conda.sh
+
+activate:
+	# activate venv run this manually
+	conda activate name_of_path_where
+
+deactivate:
+	# deactivate venv run this manually
+	conda deactivate 
+
 install:
-	#install commands
-	pip install --upgrade pip &&\
-		pip install -r requirements.txt
+	# install commands
+	# review pytorch website for your distribution
+	conda update -n base -c defaults conda &&\
+		mamba install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge &&\
+		mamba install -c fastchan fastai
 
-clean-dir:
-	rm -rf /root/.cache
-
-format:
-	#format code
-	black *.py mylib/*.py
-
-lint:
-	#flake8 or #pylint
-	pylint --disable=R,C *.py mylib/*.py
-
-test:
-	#test
-	#python -m pytest -vv --cov=mylib --cov=main test_*.py
-
-scripts:
-	# run scripts
-	python main.py
+start-venv:
+	# if the environment.yml is available
+	conda env create --file environment.yml --prefix ./venv --quiet
 
 build:
-	#build container
-    docker build -t generate_data:v0 .
+	# build the container: More important for the CI/CD
+	docker build -t fastai-env:v1 .
 	
 run:
-	#run docker
-
-deploy:
-	#deploy
-
-all: install format lint test deploy
+	# run the container
+	docker run fastai-env:v1
