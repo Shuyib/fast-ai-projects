@@ -19,7 +19,8 @@ install:
 	# review pytorch website for your distribution
 	conda update -n base -c defaults conda &&\
 		mamba install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge &&\
-		mamba install -c fastchan fastai
+		mamba install -c fastchan fastai &&\
+		mamba install -c fastchan jupyter 
 
 start-venv:
 	# if the environment.yml is available
